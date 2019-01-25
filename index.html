@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href="https://fonts.googleapis.com/css?family=Major+Mono+Display" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+        <link href="styles.css" rel="stylesheet" />
+       
+    </head>
+    
+    <body>
+        <h1>weather report</h1>
+        
+        <p>what's the weather like today?</p>
+        
+    <div class="container">
+        <h2 id="city">Providence</h2>
+    </div>
+    <div class="results">
+    <!--insert skycons here-->
+    <div class="degrees">
+        <h2 id="temp">55&#176</h1>
+        
+    </div>
+    
+    <h3 id="description">thunderstorms</h3>
+    
+    </div>
+        
+<center><button type="button" class="btn btn-outline-light" onclick="getLocation()">detect my location</button></center>
+
+
+
+<p id="demo"></p>
+
+<script>
+var x = document.getElementById("demo");
+
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else { 
+    x.innerHTML = "Geolocation is not supported by this browser.";
+  }
+}
+
+function showPosition(position) {
+  x.innerHTML = "Latitude: " + position.coords.latitude + 
+  "<br>Longitude: " + position.coords.longitude;
+}
+</script>
+         
+    </body>
+</html>
