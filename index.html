@@ -1,54 +1,84 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <link href="https://fonts.googleapis.com/css?family=Major+Mono+Display" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-        <link href="styles.css" rel="stylesheet" />
-       
-    </head>
-    
-    <body>
-        <h1>weather report</h1>
-        
-        <p>what's the weather like today?</p>
-        
+
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Major+Mono+Display" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link href="styles.css" rel="stylesheet" />
+
+
+</head>
+
+<body>
+    <h1>weather report</h1>
+
+    <p>what's the weather like today?</p>
+
     <div class="container">
         <h2 id="city">Providence</h2>
     </div>
-    <div class="results">
-    <!--insert skycons here-->
-    <div class="degrees">
-        <h2 id="temp">55&#176</h1>
-        
+    <div id="weatherdata">
+        <!--insert skycons here-->
+        <div class="degrees">
+            <h2 id="temp">55&#176</h1>
+
+        </div>
+
+        <h3 id="description">thunderstorms</h3>
+
     </div>
-    
-    <h3 id="description">thunderstorms</h3>
-    
-    </div>
-        
-<center><button type="button" class="btn btn-outline-light" onclick="getLocation()">detect my location</button></center>
+
+    <center><button type="button" class="detect btn btn-outline-light" onclick="getLocation()">detect my location</button>
+        <div>
+    </center>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+    <p id="demo"></p>
+
+
+    <!--/* global $ */ $(document).ready(function() {-->
+    <p id="demo"></p>
+
+    <script>
+        /*global navigator */
+        /* global $ */
+        /* global position */
+        var x = document.getElementById("demo");
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            }
+            else {
+                x.innerHTML = "Geolocation is not supported by this browser.";
+            }
+        }
+
+        function showPosition(position) {
+            x.innerHTML = "<br>Latitude: " + position.coords.latitude +
+                "<br>Longitude: " + position.coords.longitude;
+        }
+
+        $('.detect').click(function getWeatherData() {
+            $.ajax({
+                url: 'http://api.openweathermap.org/data/2.5/weather?lat=' + position.coords.latitude + '&lon=' + position.coords.longitude + '&units=imperial' + '&APPID=33bff6735a6a92d2c8ad14bd40df7440',
+                type: "GET",
+                dataType: "jsonp",
+                success: function(data) {
+                    console.log(data);
+                }
+
+
+            });
+
+        });
+    </script>
 
 
 
-<p id="demo"></p>
+</body>
 
-<script>
-var x = document.getElementById("demo");
-
-function getLocation() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(showPosition);
-  } else { 
-    x.innerHTML = "Geolocation is not supported by this browser.";
-  }
-}
-
-function showPosition(position) {
-  x.innerHTML = "<br>Latitude: " + position.coords.latitude + 
-  "<br>Longitude: " + position.coords.longitude;
-}
-</script>
-         
-    </body>
 </html>
