@@ -29,24 +29,25 @@
 
     </div>
 
-    <center><button type="button" class="detect btn btn-outline-light" onclick="getLocation()">detect my location</button>
+    <center><button type="button" class="detect btn btn-outline-light" onclick="getLocation()">detect my location</button><br><br>
+    <center><button type="button" class="showWeather btn btn-outline-light">show weather</button>
         <div>
     </center>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 
-    <p id="demo"></p>
-
+    <p id="latlon"></p>
+    
+    <p id="error"></p>
 
     <!--/* global $ */ $(document).ready(function() {-->
-    <p id="demo"></p>
 
     <script>
         /*global navigator */
         /* global $ */
         /* global position */
-        var x = document.getElementById("demo");
+        var x = document.getElementById("latlon");
 
         function getLocation() {
             if (navigator.geolocation) {
@@ -58,23 +59,32 @@
         }
 
         function showPosition(position) {
+            /*global latlon */ 
+            var latlon = 'lat=' + position.coords.latitude + "&lon=" + position.coords.longitude;
             x.innerHTML = "<br>Latitude: " + position.coords.latitude +
                 "<br>Longitude: " + position.coords.longitude;
         }
-
-        $('.detect').click(function getWeatherData() {
-            $.ajax({
-                url: 'http://api.openweathermap.org/data/2.5/weather?lat=' + position.coords.latitude + '&lon=' + position.coords.longitude + '&units=imperial' + '&APPID=33bff6735a6a92d2c8ad14bd40df7440',
-                type: "GET",
-                dataType: "jsonp",
-                success: function(data) {
-                    console.log(data);
+$(document).ready(function() {
+  $('.showWeather').click(function(){
+    
+    if(latlon != ''){
+    //   lat=35&lon=139 
+      $.ajax({
+       url: 'https://fcc-weather-api.glitch.me/api/current?' + latlon,
+        type: "GET",
+        dataType: "jsonp",
+        success: function(data){
+        console.log(data);
                 }
+                
+      });
+    }else{
+        $("#error").html('Cannot detect location');
+        
+    }
 
-
-            });
-
-        });
+  });
+});
     </script>
 
 

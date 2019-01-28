@@ -1,16 +1,41 @@
-        /* global $ */
-         $('.detect').click(function getWeatherData() {
-               /* global $ */
-                /* global position */
-               $.ajax({
-                    url: 'http://api.openweathermap.org/data/2.5/weather?lat=' + position.coords.latitude + '&lon=' + position.coords.longitude + '&units=imperial' + '&APPID=33bff6735a6a92d2c8ad14bd40df7440',
-                     type: "GET",
-                 dataType: "jsonp",
-                    success: function(data) {
-                        console.log(data);
-                 }
+ /* global $ */
+/* global navigator */
+        
+        var x = document.getElementById("print");
 
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            }
+            else {
+                x.innerHTML = "Geolocation is not supported by this browser.";
+            }
+        }
 
-               });
+        function showPosition(position) {
+            /*global latlon */ 
+            var latlon = 'lat=' + position.coords.latitude + "&lon=" + position.coords.longitude;
+            x.innerHTML = "<br>Latitude: " + position.coords.latitude +
+                "<br>Longitude: " + position.coords.longitude;
+        }
+        
+$(document).ready(function() {
+  $('.showWeather').click(function(){
+    
+    if(latlon != ''){
+      $.ajax({
+       url: 'https://fcc-weather-api.glitch.me/api/current?' + latlon,
+        type: "GET",
+        dataType: "jsonp",
+        success: function(data){
+        console.log(data);
+                }
+                
+      });
+    }else{
+        $("#error").html('Cannot detect location');
+        
+    }
 
-           });
+  });
+});
