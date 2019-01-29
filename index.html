@@ -16,16 +16,16 @@
     <p>what's the weather like today?</p>
 
     <div class="container">
-        <h2 id="city">Providence</h2>
+        <h2 id="city"></h2>
     </div>
     <div id="weatherdata">
         <!--insert skycons here-->
         <div class="degrees">
-            <h2 id="temp">55&#176</h1>
+            <h2 id="temp"></h2>
 
         </div>
 
-        <h3 id="description">thunderstorms</h3>
+        <h3 id="description"></h3>
 
     </div>
 
@@ -46,8 +46,8 @@
     <script>
         /*global navigator */
         /* global $ */
-        /* global position */
         var x = document.getElementById("latlon");
+        var latlon = '';
 
         function getLocation() {
             if (navigator.geolocation) {
@@ -59,23 +59,28 @@
         }
 
         function showPosition(position) {
-            /*global latlon */ 
-            var latlon = 'lat=' + position.coords.latitude + "&lon=" + position.coords.longitude;
-            x.innerHTML = "<br>Latitude: " + position.coords.latitude +
-                "<br>Longitude: " + position.coords.longitude;
+            latlon = 'lat=' + position.coords.latitude + "&lon=" + position.coords.longitude;
+            console.log(latlon);
+            
+            x.innerHTML = "<br>Detected your location: " + position.coords.latitude + ", "
+                 + position.coords.longitude + "<br> Click 'Show weather' to display forecast.";
         }
 $(document).ready(function() {
   $('.showWeather').click(function(){
-    
     if(latlon != ''){
-    //   lat=35&lon=139 
       $.ajax({
-       url: 'https://fcc-weather-api.glitch.me/api/current?' + latlon,
+       url: 'https://api.openweathermap.org/data/2.5/weather?' + latlon + "&units=imperial" + "&APPID=33bff6735a6a92d2c8ad14bd40df7440",
         type: "GET",
         dataType: "jsonp",
         success: function(data){
         console.log(data);
-                }
+        var description = main(data);
+        $("#description").html(description);
+        var temperature = temp(data);
+        $("#temp").html(temperature);      
+        var loc = city(data);
+        $("#city").html(loc);    
+        }
                 
       });
     }else{
@@ -85,6 +90,20 @@ $(document).ready(function() {
 
   });
 });
+
+        function main(data){
+        return data.weather[0].description;
+    }
+        function temp(data){
+        return Math.round(data.main.temp) + "&#176";
+        }
+
+        function city(data){
+        return data.name;
+        }
+        
+        
+    
     </script>
 
 
